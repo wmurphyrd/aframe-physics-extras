@@ -38,15 +38,15 @@ suite('physics-collider', function () {
         'finds new collisions'
       )
       this.comp.tick()
-      assert.strictEqual(this.comp.collisions.length, 2, 'ignores duplicates')
+      assert.strictEqual(this.comp.collisions.size, 2, 'ignores duplicates')
       this.el.body.world.contacts = [{bi: this.el.body, bj: {el: this.target1}}]
       this.comp.tick()
       assert.isTrue(
-        hitSpy.calledWithMatch({detail: {clearedEls: [this.target2]}}),
-        'clears old collisions'
+        hitSpy.calledWithMatch({detail: {els: [], clearedEls: [this.target2]}}),
+        'clears old collisions and ignores duplicates'
       )
-      assert.strictEqual(this.comp.collisions.length, 1, 'keeps ongoing collisions')
-      assert.sameMembers(this.comp.collisions, [this.target1], 'keeps ongoing collisions')
+      assert.strictEqual(this.comp.collisions.size, 1, 'keeps ongoing collisions')
+      assert.isTrue(this.comp.collisions.has(this.target1), 'keeps ongoing collisions')
     })
   })
 })

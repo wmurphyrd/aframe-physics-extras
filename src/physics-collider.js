@@ -5,8 +5,14 @@ AFRAME.registerComponent('physics-collider', {
     collisionPhysics: {default: false}
   },
   init: function () {
-    this.collisions = []
-    this.newCollisions = new Set()
+    this.collisions = new Set()
+    this.currentCollisions = new Set()
+    this.newCollisions = []
+    this.clearedCollisions = []
+    this.collisionEventDetails = {
+      els: this.newCollisions,
+      clearedEls: this.clearedCollisions
+    }
   },
   update: function () {
     if (this.el.body) {
@@ -28,25 +34,37 @@ AFRAME.registerComponent('physics-collider', {
     this.el.body.type = this.data.ignoreSleep ? 0 : this.originalType
   },
   tick: function () {
-    const el = this.el
-    const body = el.body
-    const newCollisions = this.newCollisions
+    const body = this.el.body
+    const currentCollisions = this.currentCollisions
     const collisions = this.collisions
+    const newCollisions = this.newCollisions
+    const clearedCollisions = this.clearedCollisions
+    let target
     if (!body) return
-    newCollisions.clear()
+    newCollisions.length = clearedCollisions.length = 0
+    currentCollisions.clear()
     body.world.contacts.forEach((contact) => {
       if (contact.bi === body) {
-        newCollisions.add(contact.bj.el)
+        target = contact.bj.el
+        currentCollisions.add(target)
+        if (!collisions.has(target)) { newCollisions.push(target) }
       } else if (contact.bj === body) {
-        newCollisions.add(contact.bi.el)
+        target = contact.bi.el
+        currentCollisions.add(target)
+        if (!collisions.has(target)) { newCollisions.push(target) }
       }
     })
-    // Update the state of the elements that are not intersected anymore.
-    let lostCollisions = collisions.filter(el => {
-      return !newCollisions.has(el)
-    })
-    collisions.length = 0
-    collisions.push(...newCollisions)
-    this.el.emit('collisions', {els: collisions, clearedEls: lostCollisions})
+    for (let col of collisions) {
+      if (!currentCollisions.has(col)) {
+        clearedCollisions.push(col)
+        collisions.delete(col)
+      }
+    }
+    for (let col of newCollisions) {
+      collisions.add(col)
+    }
+    if (newCollisions.length || clearedCollisions.length) {
+      this.el.emit('collisions', this.collisionEventDetails)
+    }
   }
 })
