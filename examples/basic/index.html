@@ -4,18 +4,22 @@
     <title>A-Frame Physics Extras Example</title>
     <script src="https://aframe.io/releases/0.7.0/aframe.js"></script>
     <script src="//cdn.rawgit.com/donmccurdy/aframe-physics-system/v2.1.0/dist/aframe-physics-system.min.js"></script>
-    <script src="https://unpkg.com/super-hands@2.0.1/dist/super-hands.min.js"></script>
+    <script src="https://rawgit.com/feiss/aframe-environment-component/master/dist/aframe-environment-component.min.js"></script>
+    <script src="https://rawgit.com/wmurphyrd/aframe-super-hands-component/master/dist/super-hands.min.js"></script>
     <script src="../build.js"></script>
   </head>
   <body>
-    <a-scene physics="gravity: 0">
+    <a-scene physics="gravity: 0" environment="preset: forest">
       <a-assets>
         <img id="red" src="textures/red.png">
         <img id="blue" src="textures/blue.png">
         <img id="green" src="textures/green.png">
         <a-mixin id = "controller"
                  physics-collider
-                 static-body="shape: sphere; sphereRadius: 0.02;"
+                 super-hands="colliderEvent: collisions;
+                              colliderEventProperty: els;
+                              colliderEndEvent: collisions;
+                              colliderEndEventProperty: clearedEls"
                  collision-filter = "collidesWith: default, red, green, blue;">
         </a-mixin>
         <a-mixin id="cube" geometry="width: 0.5; height: 0.5; depth: 0.5" dynamic-body
@@ -25,8 +29,8 @@
 
       <!-- Player -->
       <a-entity progressive-controls>
-        <!-- <a-entity mixin="controller" vive-controls="hand: left"></a-entity>
-        <a-entity mixin="controller" vive-controls="hand: right"></a-entity> -->
+        <a-entity id="rightHand" class="right-controller" mixin="controller"></a-entity>
+        <a-entity id="leftHand" class="left-controller" mixin="controller"></a-entity>
       </a-entity>
 
       <a-box mixin="cube" sleepy position="0 1 -1" src="#red"
