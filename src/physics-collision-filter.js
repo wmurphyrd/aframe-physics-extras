@@ -5,74 +5,53 @@ AFRAME.registerComponent('collision-filter', {
     collidesWith: {default: ['default']}
   },
   init: function () {
+    this.updateBodyBound = this.updateBody.bind(this)
+    this.system.registerMe(this)
+    this.el.addEventListener('body-loaded', this.updateBodyBound)
+  },
+  update: function () {
+    // register any new groups
     this.system.registerMe(this)
     if (this.el.body) {
       this.updateBody()
-    } else {
-      this.el.addEventListener('body-loaded', this.initBody.bind(this))
     }
   },
   remove: function () {
-    this.pause()
-  },
-  initBody: function () {
-    this.oldFilterGroup = this.el.body.collisionFilterGroup
-    this.oldFilterMask = this.el.body.collisionFilterMask
-    this.updateBody()
+    this.el.removeEventListener('body-loaded', this.updateBodyBound)
   },
   updateBody: function () {
     this.el.body.collisionFilterMask =
       this.system.getFilterCode(this.data.collidesWith)
     this.el.body.collisionFilterGroup =
       this.system.getFilterCode(this.data.group)
-  },
-  update: function () {
-    // register any new groups
-    this.system.registerMe(this)
-    if (this.el.body) this.updateBody()
-  },
-  play: function () {
-    if (this.el.body) this.updateBody()
-  },
-  pause: function () {
-    if (this.el.body) {
-      this.el.body.collisionFilterMask = this.oldFilterMask
-      this.el.body.collisionFilterGroup = this.oldFilterGroup
-    }
   }
-
 })
 
 AFRAME.registerSystem('collision-filter', {
   schema: {
     collisionGroups: {default: ['default']}
   },
-
   dependencies: ['physics'],
-
+  init: function () {
+    this.maxGroups = Math.log2(Number.MAX_SAFE_INTEGER)
+  },
   registerMe: function (comp) {
     // add any unknown groups to the master list
-    const elGroups = comp.data.collidesWith.slice()
-    elGroups.push(comp.data.group)
-    var collisionGroups = this.data.collisionGroups
-    elGroups.forEach(function (elGroup) {
-      if (collisionGroups.indexOf(elGroup) === -1) {
-        collisionGroups.push(elGroup)
-      }
-    })
+    const newGroups = [comp.data.group, ...comp.data.collidesWith]
+        .filter(group => this.data.collisionGroups.indexOf(group) === -1)
+    this.data.collisionGroups.push(...newGroups)
+    if (this.data.collisionGroups.length > this.maxGroups) {
+      throw new Error('Too many collision groups')
+    }
   },
-
   getFilterCode: function (elGroups) {
-    var code = 0
-    var collisionGroups = this.data.collisionGroups
-    // convert single item groups for processing
-    if (!Array.isArray(elGroups)) elGroups = Array.of(elGroups)
+    let code = 0
+    if (!Array.isArray(elGroups)) { elGroups = [elGroups] }
     // each group corresponds to a bit which is turned on when matched
     // floor negates any unmatched groups (2^-1 = 0.5)
-    elGroups.forEach(function (elGroup) {
-      code = code + Math.floor(Math.pow(2, collisionGroups.indexOf(elGroup)))
+    elGroups.forEach(group => {
+      code += Math.floor(Math.pow(2, this.data.collisionGroups.indexOf(group)))
     })
     return code
   }
-
 })
