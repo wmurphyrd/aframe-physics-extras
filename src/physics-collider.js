@@ -1,7 +1,6 @@
 /* global AFRAME */
 AFRAME.registerComponent('physics-collider', {
   schema: {
-    collidedState: {default: 'collided'},
     ignoreSleep: {default: true},
     collisionPhysics: {default: false}
   },
