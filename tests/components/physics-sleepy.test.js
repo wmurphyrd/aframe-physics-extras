@@ -10,7 +10,6 @@ suite('sleepy', function () {
     this.el.setAttribute('sleepy', '')
     this.scene.addEventListener('loaded', () => {
       this.comp = this.el.components['sleepy']
-      this.scene.systems.physics = {world: {}}
       done()
     })
   })
@@ -22,17 +21,17 @@ suite('sleepy', function () {
   })
   suite('applies settings', function () {
     test('initial settings applied to body loaded later', function () {
-      this.el.body = {}
+      this.el.body = {world: {}}
       this.el.emit('body-loaded')
       assert.isTrue(this.el.body.allowSleep)
-      assert.isTrue(this.scene.systems.physics.world.allowSleep)
+      assert.isTrue(this.body.world.allowSleep)
       assert.strictEqual(this.el.body.sleepSpeedLimit, 0.25)
       assert.strictEqual(this.el.body.sleepTimeLimit, 0.25)
       assert.strictEqual(this.el.body.linearDamping, 0.99)
       assert.strictEqual(this.el.body.angularDamping, 0.99)
     })
     test('updates applied to existing body', function () {
-      this.el.body = {}
+      this.el.body = {world: {}}
       this.el.setAttribute('sleepy', {
         allowSleep: false,
         speedLimit: 1,
@@ -49,7 +48,7 @@ suite('sleepy', function () {
   })
   suite('hold state', function () {
     test('turns sleep on and off with grabbed state', function () {
-      this.el.body = {}
+      this.el.body = {world: {}}
       this.el.emit('body-loaded')
       assert.isTrue(this.el.body.allowSleep)
       this.el.emit('stateadded', {state: 'grabbed'})

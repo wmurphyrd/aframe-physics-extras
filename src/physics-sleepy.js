@@ -31,7 +31,7 @@ AFRAME.registerComponent('sleepy', {
     this.el.removeEventListener('stateremoved', this.resumeStateBound)
   },
   updateBody: function () {
-    this.el.sceneEl.systems.physics.world.allowSleep = true
+    this.el.body.world.allowSleep = true
     this.el.body.allowSleep = this.data.allowSleep
     this.el.body.sleepSpeedLimit = this.data.speedLimit
     this.el.body.sleepTimeLimit = this.data.delay
