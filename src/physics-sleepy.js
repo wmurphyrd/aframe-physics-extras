@@ -8,49 +8,44 @@ AFRAME.registerComponent('sleepy', {
     angularDamping: {default: 0.99, type: 'number'},
     holdState: {default: 'grabbed'}
   },
-
-  dependencies: ['dynamic-body'],
-
   init: function () {
+    this.initBodyBound = this.initBody.bind(this)
+    this.holdStateBound = this.holdState.bind(this)
+    this.resumeStateBound = this.resumeState.bind(this)
+
+    this.el.addEventListener('body-loaded', this.initBodyBound)
+    this.el.addEventListener('stateadded', this.holdStateBound)
+    this.el.addEventListener('stateremoved', this.resumeStateBound)
+
     if (this.el.body) {
       this.initBody()
-    } else {
-      this.el.addEventListener('body-loaded', this.initBody.bind(this))
     }
   },
-
+  update: function () {
+    if (this.el.body) { this.updateBody() }
+  },
+  remove: function () {
+    this.el.removeEventListener('body-loaded', this.initBodyBound)
+    this.el.removeEventListener('stateadded', this.holdStateBound)
+    this.el.removeEventListener('stateremoved', this.resumeStateBound)
+  },
   initBody: function () {
     this.el.sceneEl.systems.physics.world.allowSleep = true
-    this.update()
-    this.play()
+    this.updateBody()
     this.resumeState({detail: {state: this.data.holdState}})
   },
-
-  update: function () {
-    if (this.el.body) {
-      this.el.body.sleepSpeedLimit = this.data.speedLimit
-      this.el.body.sleepTimeLimit = this.data.delay
-      this.el.body.linearDamping = this.data.linearDamping
-      this.el.body.angularDamping = this.data.angularDamping
-    }
+  updateBody: function () {
+    this.el.body.sleepSpeedLimit = this.data.speedLimit
+    this.el.body.sleepTimeLimit = this.data.delay
+    this.el.body.linearDamping = this.data.linearDamping
+    this.el.body.angularDamping = this.data.angularDamping
   },
-
-  play: function () {
-    this.el.addEventListener('stateadded', this.holdState.bind(this))
-    this.el.addEventListener('stateremoved', this.resumeState.bind(this))
-  },
-
-  pause: function () {
-    this.el.removeEventListener('stateadded', this.holdState.bind(this))
-    this.el.addEventListener('stateremoved', this.resumeState.bind(this))
-  },
-  // disble the sleeping while grabbed because sleep will break constraints
+  // disble the sleeping during interactions because sleep will break constraints
   holdState: function (evt) {
     if (evt.detail.state === this.data.holdState) {
       this.el.body.allowSleep = false
     }
   },
-
   resumeState: function (evt) {
     if (evt.detail.state === this.data.holdState) {
       this.el.body.allowSleep = true
