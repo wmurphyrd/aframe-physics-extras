@@ -7,6 +7,7 @@ AFRAME.registerComponent('physics-collider', {
   },
   init: function () {
     this.collisions = []
+    this.newCollisions = new Set()
   },
   update: function () {
     if (this.el.body) {
@@ -28,32 +29,25 @@ AFRAME.registerComponent('physics-collider', {
     this.el.body.type = this.data.ignoreSleep ? 0 : this.originalType
   },
   tick: function () {
-    const collisions = []
-    const colState = this.data.collidedState
     const el = this.el
     const body = el.body
+    const newCollisions = this.newCollisions
+    const collisions = this.collisions
     if (!body) return
+    newCollisions.clear()
     body.world.contacts.forEach((contact) => {
       if (contact.bi === body) {
-        handleHit(contact.bj.el)
-        collisions.push(contact.bj.el)
+        newCollisions.add(contact.bj.el)
       } else if (contact.bj === body) {
-        handleHit(contact.bi.el)
-        collisions.push(contact.bi.el)
+        newCollisions.add(contact.bi.el)
       }
     })
     // Update the state of the elements that are not intersected anymore.
-    this.collisions.filter(function (el) {
-      return collisions.indexOf(el) === -1
-    }).forEach(el => {
-      el.removeState(colState)
-      this.el.emit('hitend', {el: el})
+    let lostCollisions = collisions.filter(el => {
+      return !newCollisions.has(el)
     })
-    function handleHit (hitEl) {
-      hitEl.addState(colState)
-      el.emit('hit', {el: hitEl})
-    }
-
-    this.collisions = collisions
+    collisions.length = 0
+    collisions.push(...newCollisions)
+    this.el.emit('collisions', {els: collisions, clearedEls: lostCollisions})
   }
 })
