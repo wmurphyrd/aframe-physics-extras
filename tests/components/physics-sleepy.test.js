@@ -25,6 +25,7 @@ suite('sleepy', function () {
       this.el.body = {}
       this.el.emit('body-loaded')
       assert.isTrue(this.el.body.allowSleep)
+      assert.isTrue(this.scene.systems.physics.world.allowSleep)
       assert.strictEqual(this.el.body.sleepSpeedLimit, 0.25)
       assert.strictEqual(this.el.body.sleepTimeLimit, 0.25)
       assert.strictEqual(this.el.body.linearDamping, 0.99)
@@ -33,6 +34,7 @@ suite('sleepy', function () {
     test('updates applied to existing body', function () {
       this.el.body = {}
       this.el.setAttribute('sleepy', {
+        allowSleep: false,
         speedLimit: 1,
         delay: 1,
         linearDamping: 0,
@@ -42,7 +44,7 @@ suite('sleepy', function () {
       assert.strictEqual(this.el.body.sleepTimeLimit, 1)
       assert.strictEqual(this.el.body.linearDamping, 0)
       assert.strictEqual(this.el.body.angularDamping, 0)
-      assert.isNotOk(this.el.body.allowSleep, 'no extranous setting of allowSleep')
+      assert.isFalse(this.el.body.allowSleep)
     })
   })
   suite('hold state', function () {

@@ -2,6 +2,7 @@
 /* global AFRAME */
 AFRAME.registerComponent('sleepy', {
   schema: {
+    allowSleep: {default: true},
     speedLimit: {default: 0.25, type: 'number'},
     delay: {default: 0.25, type: 'number'},
     linearDamping: {default: 0.99, type: 'number'},
@@ -9,36 +10,40 @@ AFRAME.registerComponent('sleepy', {
     holdState: {default: 'grabbed'}
   },
   init: function () {
-    this.initBodyBound = this.initBody.bind(this)
+    this.updateBodyBound = this.updateBody.bind(this)
     this.holdStateBound = this.holdState.bind(this)
     this.resumeStateBound = this.resumeState.bind(this)
 
-    this.el.addEventListener('body-loaded', this.initBodyBound)
-    this.el.addEventListener('stateadded', this.holdStateBound)
-    this.el.addEventListener('stateremoved', this.resumeStateBound)
+    this.el.addEventListener('body-loaded', this.updateBodyBound)
 
     if (this.el.body) {
       this.initBody()
     }
   },
   update: function () {
-    if (this.el.body) { this.updateBody() }
+    if (this.el.body) {
+      this.updateBody()
+    }
   },
   remove: function () {
-    this.el.removeEventListener('body-loaded', this.initBodyBound)
+    this.el.removeEventListener('body-loaded', this.updateBodyBound)
     this.el.removeEventListener('stateadded', this.holdStateBound)
     this.el.removeEventListener('stateremoved', this.resumeStateBound)
   },
-  initBody: function () {
-    this.el.sceneEl.systems.physics.world.allowSleep = true
-    this.updateBody()
-    this.resumeState({detail: {state: this.data.holdState}})
-  },
   updateBody: function () {
+    this.el.sceneEl.systems.physics.world.allowSleep = true
+    this.el.body.allowSleep = this.data.allowSleep
     this.el.body.sleepSpeedLimit = this.data.speedLimit
     this.el.body.sleepTimeLimit = this.data.delay
     this.el.body.linearDamping = this.data.linearDamping
     this.el.body.angularDamping = this.data.angularDamping
+    if (this.data.allowSleep) {
+      this.el.addEventListener('stateadded', this.holdStateBound)
+      this.el.addEventListener('stateremoved', this.resumeStateBound)
+    } else {
+      this.el.removeEventListener('stateadded', this.holdStateBound)
+      this.el.removeEventListener('stateremoved', this.resumeStateBound)
+    }
   },
   // disble the sleeping during interactions because sleep will break constraints
   holdState: function (evt) {
@@ -48,7 +53,7 @@ AFRAME.registerComponent('sleepy', {
   },
   resumeState: function (evt) {
     if (evt.detail.state === this.data.holdState) {
-      this.el.body.allowSleep = true
+      this.el.body.allowSleep = this.data.allowSleep
     }
   }
 
