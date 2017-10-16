@@ -1,28 +1,69 @@
 <html>
   <head>
-    <title>A-Frame Foo Component</title>
+    <title>A-Frame Physics Extras</title>
     <style>
       html {
         background: #33425B;
         color: #FAFAFA;
-        font-family: monospace;
+        font-family: sans-serif;
         font-size: 20px;
         padding: 10px 20px;
+        max-width: 41em;
+        margin: 0 auto;
       }
-      h1 {
+      h1,h2 {
         font-weight: 300;
+        font-family: serif;
       }
       a {
         color: #FAFAFA;
-        display: block;
-        padding: 15px 0;
       }
-    </style>
+      a.example {
+        padding: 15px 0;
+        font-size: 24px;
+        display: block;
+      }
+      code, pre {
+        font-family: monospace;
+        background-color: #3f506d;
+        color: #BBB;
+      }
+      .unemph {
+        font-size: smaller;
+        color: #BBB;
+      }
+      .preview {
+        width: 192px;
+        height: 96px;
+        display: block;
+        margin: 3px 0px;
+        float: left;
+      }
+      .bonus {
+        color: #f4f4a1;
+        background-color: #3f506d7e;
+        font-size: 18px;
+        width: 93px;
+        height: 96px;
+        float: left;
+        margin: 3px 0px;
+        padding: 0 0 0 5px;
+        position: absolute;
+        overflow: hidden;
+      }
+      .bonus::after {
+        content: 'Motion-Captured Preview Available'
+      }
+      .bonus+p, .preview+p, .example + p {
+        clear: both;
+      }
+     </style>
   </head>
   <body>
-    <h1>A-Frame Foo Component</h1>
-    <a href="basic/">Basic</a>
-    <p>This is a basic example.</p>
+    <h1>A-Frame Physics Extras</h1>
+    <a href="basic/">Main Example</a>
+    <p>This example showcases the <code>physics-collider</code>,
+      <code>collision-filter</code>, and <code>sleepy</code> components.</p>
 
     <!-- GitHub Corner. -->
     <a href="https://github.com/" class="github-corner">

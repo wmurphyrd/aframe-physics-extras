@@ -7,8 +7,13 @@
     <script src="https://rawgit.com/feiss/aframe-environment-component/master/dist/aframe-environment-component.min.js"></script>
     <script src="https://rawgit.com/wmurphyrd/aframe-super-hands-component/master/dist/super-hands.min.js"></script>
     <script src="../build.js"></script>
+    <link rel="stylesheet" type="text/css" href="../assets/examples.css">
   </head>
   <body>
+    <body>
+    <button id="replayer-button" type="button" onclick="playDemoRecording()">
+      Don't have a Vive or Rift handy? Click here for a preview.
+    </button>
     <a-scene physics="gravity: 0" environment="preset: forest">
       <a-assets>
         <img id="red" src="textures/red.png">
