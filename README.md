@@ -80,7 +80,7 @@ such as grabbing/carrying the entity.
 
 ## Examples
 
-[View the examples page](http://wmurphyrd.github.io/aframe-physics-extras/examples) to see `aframe-physics-extras` in action.
+[View the examples page](http://wmurphyrd.github.io/aframe-physics-extras/examples/) to see `aframe-physics-extras` in action.
 
 ## Installation
 
