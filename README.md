@@ -2,6 +2,8 @@
 
 Cannon API interface components the A-Frame Physics System.
 
+![aframe-physics-extras in action](./readme_files/physics.gif)
+
 * [physics-collider](#physics-collider)
 * [collision-filter](#collision-filter)
 * [sleepy](#sleepy)
@@ -22,6 +24,8 @@ Since the collision bounds are precise, it can be impossible to get in range
 to interact with an entity if it bounces off of the collider entity. Setting
 `collisionPhysics` to `false` allows the collider entity to ghost through
 other entities to enter their collision zones.
+Note: The `ignoreSleep: true; collisionPhysics: true` combo is not working
+in this release.
 
 ## collision-filter
 
