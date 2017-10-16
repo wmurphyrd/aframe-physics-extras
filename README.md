@@ -1,4 +1,6 @@
 # A-Frame Physics Extras
+[![npm Dowloads](https://img.shields.io/npm/dt/aframe-physics-extras.svg?style=flat-square)](https://www.npmjs.com/package/aframe-physics-extras)
+[![npm Version](http://img.shields.io/npm/v/aframe-physics-extras.svg?style=flat-square)](https://www.npmjs.com/package/aframe-physics-extras)
 
 Cannon API interface components the A-Frame Physics System.
 
