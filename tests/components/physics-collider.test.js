@@ -13,7 +13,7 @@ suite('physics-collider', function () {
     this.scene.appendChild(this.target1)
     this.target2 = document.createElement('a-entity')
     this.scene.appendChild(this.target2)
-    this.scene.addEventListener('loaded', () => {
+    this.el.addEventListener('loaded', () => {
       this.comp = this.el.components['physics-collider']
       done()
     })

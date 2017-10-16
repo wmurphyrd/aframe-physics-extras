@@ -24,7 +24,7 @@ suite('sleepy', function () {
       this.el.body = {world: {}}
       this.el.emit('body-loaded')
       assert.isTrue(this.el.body.allowSleep)
-      assert.isTrue(this.body.world.allowSleep)
+      assert.isTrue(this.el.body.world.allowSleep)
       assert.strictEqual(this.el.body.sleepSpeedLimit, 0.25)
       assert.strictEqual(this.el.body.sleepTimeLimit, 0.25)
       assert.strictEqual(this.el.body.linearDamping, 0.99)
