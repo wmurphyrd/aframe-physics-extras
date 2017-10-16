@@ -44,10 +44,8 @@ AFRAME.registerComponent('physics-collider', {
     // ensure sleep doesn't disable collision detection
     this.el.body.allowSleep = false;
     this.el.body.collisionResponse = this.data.collisionPhysics;
-    /* naiveBroadphase ignores collisions between static or kinematic bodies
-    and sleeping bodies by default; disable this by assigning an
-    invalid body type */
-    this.el.body.type = this.data.ignoreSleep ? 0 : this.originalType;
+    /* naiveBroadphase ignores collisions between static bodies */
+    this.el.body.type = this.data.ignoreSleep ? window.CANNON.Body.KINEMATIC : this.originalType;
   },
   tick: function () {
     const body = this.el.body;

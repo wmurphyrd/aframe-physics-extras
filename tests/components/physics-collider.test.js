@@ -6,6 +6,7 @@ const entityFactory = helpers.entityFactory
 suite('physics-collider', function () {
   setup(function (done) {
     var el = this.el = entityFactory()
+    window.CANNON = {Body: {KINEMATIC: 4}}
     el.body = {el: el}
     this.scene = el.sceneEl
     this.el.setAttribute('physics-collider', '')
@@ -13,7 +14,7 @@ suite('physics-collider', function () {
     this.scene.appendChild(this.target1)
     this.target2 = document.createElement('a-entity')
     this.scene.appendChild(this.target2)
-    this.el.addEventListener('loaded', () => {
+    this.scene.addEventListener('loaded', () => {
       this.comp = this.el.components['physics-collider']
       done()
     })
