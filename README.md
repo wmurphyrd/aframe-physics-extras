@@ -26,8 +26,14 @@ Since the collision bounds are precise, it can be impossible to get in range
 to interact with an entity if it bounces off of the collider entity. Setting
 `collisionPhysics` to `false` allows the collider entity to ghost through
 other entities to enter their collision zones.
-Note: The `ignoreSleep: true; collisionPhysics: true` combo is not working
+Note: The combination of `ignoreSleep: true; collisionPhysics: true` is not working
 in this release.
+
+### Events
+
+| Type | Description | Detail object |
+| --- | --- | --- |
+| collisions | Emitted each tick if there are chanages to the collision list | `els`: array of new collisions. `cleardEls`: array of collisions which have ended. |
 
 ## collision-filter
 
@@ -47,7 +53,7 @@ via `physics-collider`
 
 Make entities settle down and be still after physics collisions. Very useful
 for zero-gravity user interfaces to keep entities from floating away. Also
-can help performance as sleeping bodies handled efficiently by the physics
+can help performance as sleeping bodies are handled efficiently by the physics
 simulation.
 
 ### API
