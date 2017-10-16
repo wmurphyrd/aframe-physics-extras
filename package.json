@@ -12,7 +12,9 @@
     "preghpages": "npm run build && shx rm -rf gh-pages && shx mkdir gh-pages && shx cp -r examples/* gh-pages",
     "ghpages": "npm run preghpages && ghpages -p gh-pages",
     "start": "npm run dev",
-    "test": "karma start ./tests/karma.conf.js"
+    "test": "karma start ./tests/karma.conf.js",
+    "test:machinima": "karma start ./machinima_tests/karma.conf.js",
+    "record:machinima": "budo machinima_tests/main.js:build.js --dir machinima_tests/scenes --port 8000 --live --open"
   },
   "repository": {
     "type": "git",
@@ -35,7 +37,10 @@
   "homepage": "https://github.com/wmurphyrd/aframe-physics-extras#readme",
   "devDependencies": {
     "aframe": "^0.7.0",
+    "aframe-environment-component": "^1.0.0",
+    "aframe-machinima-testing": "^0.1.2",
     "aframe-motion-capture-components": "git+https://git@github.com/wmurphyrd/aframe-motion-capture-components.git#v0.2.8a",
+    "aframe-physics-system": "^2.1.0",
     "babel-preset-env": "^1.6.0",
     "browserify": "^13.0.0",
     "budo": "^8.2.2",
@@ -57,6 +62,7 @@
     "sinon-chai": "^2.14.0",
     "snazzy": "^4.0.0",
     "standard": "^10.0.3",
+    "super-hands": "^2.0.2",
     "webpack": "^1.13.0"
   },
   "standard": {
