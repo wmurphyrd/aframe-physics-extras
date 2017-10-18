@@ -33,7 +33,7 @@ in this release.
 
 | Type | Description | Detail object |
 | --- | --- | --- |
-| collisions | Emitted each tick if there are chanages to the collision list | `els`: array of new collisions. `cleardEls`: array of collisions which have ended. |
+| collisions | Emitted each tick if there are changes to the collision list | `els`: array of new collisions. `cleardEls`: array of collisions which have ended. |
 
 ## collision-filter
 
