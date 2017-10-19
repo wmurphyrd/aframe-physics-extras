@@ -40,7 +40,7 @@
         float: left;
       }
       .bonus {
-        color: #f4f4a1;
+        color: #0200a6;
         background-color: #3f506d7e;
         font-size: 18px;
         width: 93px;
@@ -60,11 +60,36 @@
      </style>
   </head>
   <body>
-    <h1>A-Frame Physics Extras</h1>
-    <a href="basic/">Main Example</a>
+    <h1>A-Frame Physics Extras Example Page</h1>
+    <p>This is the examples page for the
+      <a href="https://github.com/wmurphyrd/aframe-physics-extras">
+        aframe-physics-extras
+      </a>
+      WebVR package.
+    </p>
+    <a id="basic" class="example" href="basic/">Basic Example<br />
+      <img class="preview" src="./assets/basic.png"/>
+      <div class="bonus"></div>
+    </a>
     <p>This example showcases the <code>physics-collider</code>,
-      <code>collision-filter</code>, and <code>sleepy</code> components.</p>
-
+      <code>collision-filter</code>, and <code>sleepy</code> components'
+      default behaviors.
+    </p>
+    <a id="collisionresponse" class="example" href="collision_response/">
+      Collision Physics Settings<br />
+      <img class="preview" src="./assets/collisionresponse.png"/>
+      <div class="bonus"></div>
+    </a>
+    <p><ul>
+      <li>Open hands can pass through objects</li>
+      <li>With a pointing gesture (trackpad on Vive wands), hands become
+        solid and can push objects around</li>
+      <li>Reach inside objects and use grip or trigger to pick up and move</li>
+    </ul></p>
+    <p>Example of using the <code>collisionPhysics</code> property of
+      <code>physics-collider</code> to affect whether the controllers have
+      physical interactions with the environment or not.
+    </p>
     <!-- GitHub Corner. -->
     <a href="https://github.com/" class="github-corner">
       <svg width="80" height="80" viewBox="0 0 250 250" style="fill:#222; color:#fff; position: absolute; top: 0; border: 0; right: 0;">
