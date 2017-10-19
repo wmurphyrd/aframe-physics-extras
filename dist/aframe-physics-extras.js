@@ -17,8 +17,7 @@ require('./src/physics-sleepy.js');
 /* global AFRAME */
 AFRAME.registerComponent('physics-collider', {
   schema: {
-    ignoreSleep: { default: true },
-    collisionPhysics: { default: false }
+    ignoreSleep: { default: true }
   },
   init: function () {
     this.collisions = new Set();
@@ -93,7 +92,6 @@ AFRAME.registerComponent('physics-collider', {
     }
   },
   updateBody: function () {
-    this.el.body.collisionResponse = this.data.collisionPhysics;
     if (this.data.ignoreSleep) {
       // ensure sleep doesn't disable collision detection
       this.el.body.allowSleep = false;
@@ -121,7 +119,8 @@ AFRAME.registerComponent('physics-collider', {
 AFRAME.registerComponent('collision-filter', {
   schema: {
     group: { default: 'default' },
-    collidesWith: { default: ['default'] }
+    collidesWith: { default: ['default'] },
+    collisionForces: { default: true }
   },
   init: function () {
     this.updateBodyBound = this.updateBody.bind(this);
@@ -141,6 +140,7 @@ AFRAME.registerComponent('collision-filter', {
   updateBody: function () {
     this.el.body.collisionFilterMask = this.system.getFilterCode(this.data.collidesWith);
     this.el.body.collisionFilterGroup = this.system.getFilterCode(this.data.group);
+    this.el.body.collisionResponse = this.data.collisionForces;
   }
 });
 

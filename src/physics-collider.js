@@ -1,8 +1,7 @@
 /* global AFRAME */
 AFRAME.registerComponent('physics-collider', {
   schema: {
-    ignoreSleep: {default: true},
-    collisionPhysics: {default: false}
+    ignoreSleep: {default: true}
   },
   init: function () {
     this.collisions = new Set()
@@ -77,7 +76,6 @@ AFRAME.registerComponent('physics-collider', {
     }
   },
   updateBody: function () {
-    this.el.body.collisionResponse = this.data.collisionPhysics
     if (this.data.ignoreSleep) {
       // ensure sleep doesn't disable collision detection
       this.el.body.allowSleep = false

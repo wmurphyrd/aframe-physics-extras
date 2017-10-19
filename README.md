@@ -20,18 +20,8 @@ overhead and precise collision zones
 | Property | Description | Default Value |
 | -------- | ----------- | ------------- |
 | ignoreSleep | Wake sleeping bodies on collision?   | `true` |
-| collisionPhysics | Other bodies react to collisions with this? | `false` |
 
-Since the collision bounds are precise, it can be impossible to get in range
-to interact with an entity if it bounces off of the collider entity. Setting
-`collisionPhysics` to `false` allows the collider entity to ghost through
-other entities to enter their collision zones.
-This can be set through events
-to toggle with a controller button press if you want to be able to bump other
-objects sometimes and reach inside to pick them up other times.
-[There is an example of this on the examples page](#examples).
-
-`physics-collider` can now also report collisions with static bodies when
+`physics-collider` can also report collisions with static bodies when
 `ignoreSleep` is `true`. This can be useful to create collision detection zones
 for interactivity with things other than dynamic bodies.
 
@@ -54,6 +44,21 @@ via `physics-collider`
 | -------- | ----------- | ------------- |
 | group | Collision group this entity belongs to  | `'default'` |
 | collidesWith | Array of collision groups this entity will interact with | `'default'` |
+| collisionForces | Should other bodies react to collisions with this body? | `true` |
+
+`collisionForces` controls whether collisions with this body generate any
+forces. Setting this to `false` allows for collisions to be registered and
+tracked without causing any corresponding movement. This is useful for
+your controller entities with `physics-collider` because it is difficult
+to pick things up if they are constantly bumped away when your hand gets close.
+This can be toggles through events with a controller button press
+if you want to be able to bump other
+objects sometimes and reach inside to pick them up other times.
+[There is an example of this on the examples page](#examples).
+
+Turning off `collisionForces` can also be useful
+for setting static bodies as collision zones to detect the presence
+of other entities without disturbing them.
 
 ## sleepy
 

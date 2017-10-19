@@ -11,16 +11,16 @@
     <script>
       window.onload = function (e) {
         document.querySelector('#leftHand').addEventListener('pointingstart', function (e2) {
-          e2.target.setAttribute('physics-collider', {collisionPhysics: true})
+          e2.target.setAttribute('collision-filter', {collisionForces: true})
         })
         document.querySelector('#rightHand').addEventListener('pointingstart', function (e2) {
-          e2.target.setAttribute('physics-collider', {collisionPhysics: true})
+          e2.target.setAttribute('collision-filter', {collisionForces: true})
         })
         document.querySelector('#leftHand').addEventListener('pointingend', function (e2) {
-          e2.target.setAttribute('physics-collider', {collisionPhysics: false})
+          e2.target.setAttribute('collision-filter', {collisionForces: false})
         })
         document.querySelector('#rightHand').addEventListener('pointingend', function (e2) {
-          e2.target.setAttribute('physics-collider', {collisionPhysics: false})
+          e2.target.setAttribute('collision-filter', {collisionForces: false})
         })
       }
     </script>
@@ -44,8 +44,9 @@
                               grabStartButtons: gripdown, pointdown, triggerdown;
                               grabEndButtons: gripup, pointup, triggerup"
                  static-body="shape: sphere; sphereRadius: 0.11"
-                 physics-collider="collisionPhysics: false; ignoreSleep: true"
-                 collision-filter = "collidesWith: default, red, green, blue;">
+                 physics-collider
+                 collision-filter = "collidesWith: default, red, green, blue;
+                                     collisionForces: false">
         </a-mixin>
         <a-mixin id="cube" geometry="width: 0.5; height: 0.5; depth: 0.5" dynamic-body
                  hoverable grabbable></a-mixin>
