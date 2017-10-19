@@ -58,9 +58,9 @@ AFRAME.registerComponent('physics-collider', {
         target = worldBodyMap[upperId].el;
         if ((worldCollisions[i] & lowerMask) === thisBodyId) {
           currentCollisions.add(target);
-        }
-        if (!collisions.has(target)) {
-          newCollisions.push(target);
+          if (!collisions.has(target)) {
+            newCollisions.push(target);
+          }
         }
         upperId = (worldCollisions[++i] & uppperMask) >> 16;
       }
@@ -100,7 +100,6 @@ AFRAME.registerComponent('physics-collider', {
       /* naiveBroadphase ignores collisions between sleeping & static bodies */
       this.el.body.type = window.CANNON.Body.KINEMATIC;
       // Kinematics must have velocity >= their sleep limit to wake others
-      // https://github.com/donmccurdy/cannon.js/blob/022e8ba53fa83abf0ad8a0e4fd08623123838a17/src/world/World.js#L782
       this.el.body.sleepSpeedLimit = 0;
     } else if (this.originalSleepConfig === undefined) {
       this.originalSleepConfig = {

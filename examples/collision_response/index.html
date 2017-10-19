@@ -6,36 +6,55 @@
     <script src="//cdn.rawgit.com/donmccurdy/aframe-physics-system/v2.1.0/dist/aframe-physics-system.min.js"></script>
     <script src="https://rawgit.com/feiss/aframe-environment-component/master/dist/aframe-environment-component.min.js"></script>
     <script src="https://rawgit.com/wmurphyrd/aframe-super-hands-component/master/dist/super-hands.min.js"></script>
+    <script src="https://unpkg.com/aframe-event-set-component@^4.0.0/dist/aframe-event-set-component.min.js"></script>
     <script src="../build.js"></script>
+    <script>
+      window.onload = function (e) {
+        document.querySelector('#leftHand').addEventListener('pointingstart', function (e2) {
+          e2.target.setAttribute('physics-collider', {collisionPhysics: true})
+        })
+        document.querySelector('#rightHand').addEventListener('pointingstart', function (e2) {
+          e2.target.setAttribute('physics-collider', {collisionPhysics: true})
+        })
+        document.querySelector('#leftHand').addEventListener('pointingend', function (e2) {
+          e2.target.setAttribute('physics-collider', {collisionPhysics: false})
+        })
+        document.querySelector('#rightHand').addEventListener('pointingend', function (e2) {
+          e2.target.setAttribute('physics-collider', {collisionPhysics: false})
+        })
+      }
+    </script>
     <link rel="stylesheet" type="text/css" href="../assets/examples.css">
   </head>
   <body>
     <body>
-    <button id="replayer-button" type="button" onclick="playDemoRecording()">
+    <button id="replayer-button" type="button" onclick="playDemoRecording(false)">
       Don't have a Vive or Rift handy? Click here for a preview.
     </button>
     <a-scene physics="gravity: 0" environment="preset: forest">
       <a-assets>
-        <img id="red" src="textures/red.png">
-        <img id="blue" src="textures/blue.png">
-        <img id="green" src="textures/green.png">
-        <a-mixin id = "controller"
-                 physics-collider="collisionPhysics: true; ignoreSleep: false"
+        <img id="red" src="../assets/textures/red.png">
+        <img id="blue" src="../assets/textures/blue.png">
+        <img id="green" src="../assets/textures/green.png">
+        <a-mixin id="controller"
                  super-hands="colliderEvent: collisions;
                               colliderEventProperty: els;
                               colliderEndEvent: collisions;
-                              colliderEndEventProperty: clearedEls"
+                              colliderEndEventProperty: clearedEls;
+                              grabStartButtons: gripdown, pointdown, triggerdown;
+                              grabEndButtons: gripup, pointup, triggerup"
+                 static-body="shape: sphere; sphereRadius: 0.11"
+                 physics-collider="collisionPhysics: false; ignoreSleep: true"
                  collision-filter = "collidesWith: default, red, green, blue;">
         </a-mixin>
         <a-mixin id="cube" geometry="width: 0.5; height: 0.5; depth: 0.5" dynamic-body
-                 hoverable></a-mixin>
+                 hoverable grabbable></a-mixin>
         <a-mixin id="cube-hovered" material="opacity: 0.7; transparent: true"></a-mixin>
       </a-assets>
 
-      <!-- Player -->
-      <a-entity progressive-controls>
-        <a-entity id="rightHand" class="right-controller" mixin="controller"></a-entity>
-        <a-entity id="leftHand" class="left-controller" mixin="controller"></a-entity>
+      <a-entity id="rightHand" hand-controls="right" mixin="controller">
+      </a-entity>
+      <a-entity id="leftHand" hand-controls="left" mixin="controller">
       </a-entity>
 
       <a-box mixin="cube" sleepy position="0 1 -1" src="#red"
@@ -46,11 +65,9 @@
       </a-box>
 
       <a-box mixin="cube" position="-1 1 -1" src="#green"
-             sleepy="allowSleep: false"
              collision-filter="group: green; collidesWith: default, green">
       </a-box>
       <a-box mixin="cube" position="-1 1.6 -1" src="#green"
-             sleepy="allowSleep: false"
              collision-filter="group: green; collidesWith: default, green">
       </a-box>
 
