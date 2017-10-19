@@ -26,8 +26,14 @@ Since the collision bounds are precise, it can be impossible to get in range
 to interact with an entity if it bounces off of the collider entity. Setting
 `collisionPhysics` to `false` allows the collider entity to ghost through
 other entities to enter their collision zones.
-Note: The combination of `ignoreSleep: true; collisionPhysics: true` is not working
-in this release.
+This can be set through events
+to toggle with a controller button press if you want to be able to bump other
+objects sometimes and reach inside to pick them up other times.
+[There is an example of this on the examples page](#examples).
+
+`physics-collider` can now also report collisions with static bodies when
+`ignoreSleep` is `true`. This can be useful to create collision detection zones
+for interactivity with things other than dynamic bodies.
 
 ### Events
 
