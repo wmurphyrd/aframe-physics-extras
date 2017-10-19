@@ -27,8 +27,10 @@ AFRAME.registerComponent('physics-collider', {
     }
     // ensure sleep doesn't disable collision detection
     this.el.body.allowSleep = false
+    // https://github.com/donmccurdy/cannon.js/blob/022e8ba53fa83abf0ad8a0e4fd08623123838a17/src/world/World.js#L782
+    this.el.body.sleepSpeedLimit = 0
     this.el.body.collisionResponse = this.data.collisionPhysics
-    /* naiveBroadphase ignores collisions between static bodies */
+    /* naiveBroadphase ignores collisions between sleeping & static bodies */
     this.el.body.type = this.data.ignoreSleep
     ? window.CANNON.Body.KINEMATIC
     : this.originalType
