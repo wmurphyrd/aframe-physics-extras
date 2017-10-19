@@ -1,0 +1,72 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>A-Frame Physics Extras Example</title>
+    <script src="https://aframe.io/releases/0.7.0/aframe.js"></script>
+    <script src="../build.js"></script>
+  </head>
+  <body>
+    <a-scene physics="gravity: 0" environment="preset: forest">
+      <a-assets>
+        <img id="red" src="base/assets/red.png">
+        <img id="blue" src="base/assets/blue.png">
+        <img id="green" src="base/assets/green.png">
+        <a-mixin id = "controller"
+                 physics-collider
+                 super-hands="colliderEvent: collisions;
+                              colliderEventProperty: els;
+                              colliderEndEvent: collisions;
+                              colliderEndEventProperty: clearedEls"
+                 collision-filter = "collidesWith: default, red, green, blue;">
+        </a-mixin>
+        <a-mixin id="cube" geometry="width: 0.5; height: 0.5; depth: 0.5" static-body
+                 ></a-mixin>
+        <a-mixin id="cube-hovered" material="opacity: 0.7; transparent: true"></a-mixin>
+      </a-assets>
+
+      <!-- Player -->
+      <a-entity progressive-controls>
+        <a-entity id="rightHand" class="right-controller" mixin="controller"></a-entity>
+        <a-entity id="leftHand" class="left-controller" mixin="controller"></a-entity>
+      </a-entity>
+
+      <a-box id="redLow" mixin="cube" sleepy position="0 1 -1" src="#red"
+             onmousedown="this.setAttribute('material', 'opacity: 0.7; transparent: true')"
+             collision-filter="group: red; collidesWith: default, red, blue">
+      </a-box>
+      <a-box id="redHigh" mixin="cube" sleepy position="0 1.6 -1"  src="#red"
+             onmousedown="this.setAttribute('material', 'opacity: 0.7; transparent: true')"
+             collision-filter="group: red; collidesWith: default, red, blue">
+      </a-box>
+
+      <a-box id="greenLow" mixin="cube" position="-1 1 -1" src="#green"
+             onmousedown="this.setAttribute('material', 'opacity: 0.7; transparent: true')"
+             collision-filter="group: green; collidesWith: default, green">
+      </a-box>
+      <a-box id="greenHigh" mixin="cube" position="-1 1.6 -1" src="#green"
+             onmousedown="this.setAttribute('material', 'opacity: 0.7; transparent: true')"
+             collision-filter="group: green; collidesWith: default, green">
+      </a-box>
+
+      <a-box id="blueLow" mixin="cube" position="1 1 -1" src="#blue"
+             onmousedown="this.setAttribute('material', 'opacity: 0.7; transparent: true')"
+             sleepy="angularDamping: 0; speedLimit: 1"
+             collision-filter="group: blue; collidesWith: default, red">
+      </a-box>
+      <a-box id="blueHigh" mixin="cube" position="1 1.6 -1" src="#blue"
+             onmousedown="this.setAttribute('material', 'opacity: 0.7; transparent: true')"
+             sleepy="angularDamping: 0; speedLimit: 1"
+             collision-filter="group: blue; collidesWith: default, red">
+      </a-box>
+      <!-- Terrain -->
+      <a-grid static-body
+              collision-filter="group: default; collidesWith: red, green, blue">
+      </a-grid>
+
+      <!-- Lighting -->
+      <a-entity light="type: point; color: #f4f4f4; intensity: 0.2; distance: 0" position="8 10 18"></a-entity>
+      <a-entity light="type: point; color: #f4f4f4; intensity: 0.6; distance: 0" position="-8 10 -18"></a-entity>
+      <a-entity light="type: ambient; color: #f4f4f4; intensity: 0.4;" position="-8 10 -18"></a-entity>
+    </a-scene>
+  </body>
+</html>

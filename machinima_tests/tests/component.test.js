@@ -2,19 +2,17 @@
 
 const machinima = require('aframe-machinima-testing')
 
-suite('machinima-testing example suite', function () {
+suite('basic example scene', function () {
   setup(function (done) {
-    /* inject the scene html into the testing docoument */
     machinima.setupScene('scene.html')
     this.scene = document.querySelector('a-scene')
     this.scene.addEventListener('loaded', e => {
       done()
     })
   })
-  // writing tests with the test wraper function:
   machinima.test(
-    'aframe-physics-extras components', // test description
-    'base/recordings/physics-extras.json', // path to recording file
+    'basic component function',
+    'base/recordings/physics-extras.json',
     function () {
       const rh = document.getElementById('redHigh').getAttribute('position')
       const gh = document.getElementById('greenHigh').getAttribute('position')
@@ -26,6 +24,33 @@ suite('machinima-testing example suite', function () {
       assert.isAbove(gl.x, 5, 'Green doesnt sleep')
       assert.isAbove(bhb.angularVelocity.length(), 5, 'Blue rotation not dampened')
       assert.isBelow(bhb.velocity.length(), 1, 'Blue translation is dampened')
+    }
+  )
+})
+suite('static body scene', function () {
+  setup(function (done) {
+    machinima.setupScene('static.html')
+    this.scene = document.querySelector('a-scene')
+    this.scene.addEventListener('loaded', e => {
+      done()
+    })
+  })
+  machinima.test(
+    'physics-collider detects collisions with static bodies',
+    'base/recordings/physics-extras.json',
+    function () {
+      const rh = document.getElementById('redHigh').getAttribute('material')
+      const rl = document.getElementById('redLow').getAttribute('material')
+      const gh = document.getElementById('greenHigh').getAttribute('material')
+      const gl = document.getElementById('greenLow').getAttribute('material')
+      const bh = document.getElementById('blueHigh').getAttribute('material')
+      const bl = document.getElementById('blueLow').getAttribute('material')
+      assert.isTrue(rh.transparent, 'red high clicked')
+      assert.isTrue(rl.transparent, 'red low clicked')
+      assert.isTrue(gl.transparent, 'green low clicked')
+      assert.isTrue(bh.transparent, 'blue high clicked')
+      assert.isFalse(bl.transparent, 'blue low not clicked')
+      assert.isFalse(gh.transparent, 'green high not clicked')
     }
   )
 })
