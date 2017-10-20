@@ -2,7 +2,9 @@
 [![npm Dowloads](https://img.shields.io/npm/dt/aframe-physics-extras.svg?style=flat-square)](https://www.npmjs.com/package/aframe-physics-extras)
 [![npm Version](http://img.shields.io/npm/v/aframe-physics-extras.svg?style=flat-square)](https://www.npmjs.com/package/aframe-physics-extras)
 
-Cannon API interface components the A-Frame Physics System.
+Add-on components for the
+[`aframe-physics-system`](https://github.com/donmccurdy/aframe-physics-system)
+to add additional collision detection and behavior control options.
 
 ![aframe-physics-extras in action](./readme_files/physics.gif)
 
@@ -13,7 +15,10 @@ Cannon API interface components the A-Frame Physics System.
 ## physics-collider
 
 A collision detection component powered by the physics simulation with low
-overhead and precise collision zones
+overhead and precise collision zones. This is intended to be placed on
+tracked controller entities to monitor collisions and report them to
+a gesture interpretation component such as
+[super-hands](https://github.com/wmurphyrd/aframe-super-hands-component).
 
 ### API
 
@@ -99,18 +104,57 @@ such as grabbing/carrying the entity.
 
 Install and use by directly including the [browser files](dist):
 
+[![Remix on Glitch](https://cdn.glitch.com/2703baf2-b643-4da7-ab91-7ee2a2d00b5b%2Fremix-button.svg)](https://glitch.com/edit/#!/remix/blue-animal)
+
 ```html
-<head>
+<!DOCTYPE html>
+<html>
+ <head>
   <title>My A-Frame Scene</title>
   <script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
+  <script src="//cdn.rawgit.com/donmccurdy/aframe-physics-system/v2.1.0/dist/aframe-physics-system.min.js"></script>
+  <script src="https://unpkg.com/super-hands@2.0.2/dist/super-hands.min.js"></script>
   <script src="https://rawgit.com/wmurphyrd/aframe-physics-extras/master/dist/aframe-physics-extras.min.js"></script>
 </head>
 
 <body>
-  <a-scene>
-    <a-entity foo="foo: bar"></a-entity>
+  <a-scene physics="gravity: 0">
+    <a-assets>
+      <a-mixin id="controller"
+               physics-collider
+               static-body="shape: sphere; sphereRadius: 0.02"
+               super-hands="colliderEvent: collisions;
+                            colliderEventProperty: els;
+                            colliderEndEvent: collisions;
+                            colliderEndEventProperty: clearedEls"
+               collision-filter = "group: hands;
+                                   collidesWith: red, blue;
+                                   collisionForces: false">
+      </a-mixin>
+      <a-mixin id="cube" dynamic-body grabbable
+          geometry="primitive: box; width: 0.5; height: 0.5; depth: 0.5">
+      </a-mixin>
+    </a-assets>
+    <!-- settings pulled in from controller mixin above -->
+    <a-entity hand-controls="left" mixin="controller"></a-entity>
+    <a-entity hand-controls="right" mixin="controller"></a-entity>
+    <!-- can be picked up because it collides with the hands group and vice versa -->
+    <a-entity mixin="cube" position="0 1.6 -1" material="color: red" sleepy
+        collision-filter="group: red; collidesWith: default, hands, blue">
+    </a-entity>
+    <!-- even though the controller has blue in its collidesWith list,
+         since the blue cube doesn't also have hands in its list, you cannot
+         pick it up, but you can knock it around with the red cube -->
+    <a-entity mixin="cube" position="0 1 -1" material="color: blue" sleepy
+        collision-filter="group: blue; collidesWith: default, red">
+    </a-entity>
+    <!-- floor entity. 'default' collision group so cubes will bounce off -->
+    <a-box width="20" depth="20" height="0.1" static-body
+           collision-filter="collidesWith: red, blue"
+        material="color: #7BC8A4"></a-box>
   </a-scene>
 </body>
+</html>
 ```
 
 ### npm
@@ -125,5 +169,6 @@ Then require and use.
 
 ```js
 require('aframe');
+require('aframe-physics-system')
 require('aframe-physics-extras');
 ```
