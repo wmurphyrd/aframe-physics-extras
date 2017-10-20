@@ -2,7 +2,8 @@
 AFRAME.registerComponent('collision-filter', {
   schema: {
     group: {default: 'default'},
-    collidesWith: {default: ['default']}
+    collidesWith: {default: ['default']},
+    collisionForces: {default: true}
   },
   init: function () {
     this.updateBodyBound = this.updateBody.bind(this)
@@ -24,6 +25,7 @@ AFRAME.registerComponent('collision-filter', {
       this.system.getFilterCode(this.data.collidesWith)
     this.el.body.collisionFilterGroup =
       this.system.getFilterCode(this.data.group)
+    this.el.body.collisionResponse = this.data.collisionForces
   }
 })
 

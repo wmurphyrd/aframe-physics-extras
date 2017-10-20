@@ -57,4 +57,11 @@ suite('collision-filter', function () {
       assert.strictEqual(this.el.body.collisionFilterMask, 12)
     })
   })
+  suite('settings', function () {
+    test('collisionForces can be disabled', function () {
+      assert.isTrue(this.el.body.collisionResponse)
+      this.el.setAttribute('collision-filter', {collisionForces: false})
+      assert.isFalse(this.el.body.collisionResponse)
+    })
+  })
 })

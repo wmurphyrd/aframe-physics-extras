@@ -4,6 +4,7 @@ const machinima = require('aframe-machinima-testing')
 
 suite('basic example scene', function () {
   setup(function (done) {
+    this.timeout(0)
     machinima.setupScene('scene.html')
     this.scene = document.querySelector('a-scene')
     this.scene.addEventListener('loaded', e => {
