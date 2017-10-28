@@ -91,7 +91,11 @@ AFRAME.registerComponent('physics-collider', {
       AFRAME.utils.extend(this.el.body, this.originalSleepConfig);
     }
   },
-  updateBody: function () {
+  updateBody: function (evt) {
+    // ignore bubbled 'body-loaded' events
+    if (evt !== undefined && evt.target !== this.el) {
+      return;
+    }
     if (this.data.ignoreSleep) {
       // ensure sleep doesn't disable collision detection
       this.el.body.allowSleep = false;
@@ -137,7 +141,11 @@ AFRAME.registerComponent('collision-filter', {
   remove: function () {
     this.el.removeEventListener('body-loaded', this.updateBodyBound);
   },
-  updateBody: function () {
+  updateBody: function (evt) {
+    // ignore bubbled 'body-loaded' events
+    if (evt !== undefined && evt.target !== this.el) {
+      return;
+    }
     this.el.body.collisionFilterMask = this.system.getFilterCode(this.data.collidesWith);
     this.el.body.collisionFilterGroup = this.system.getFilterCode(this.data.group);
     this.el.body.collisionResponse = this.data.collisionForces;
@@ -194,10 +202,6 @@ AFRAME.registerComponent('sleepy', {
     this.resumeStateBound = this.resumeState.bind(this);
 
     this.el.addEventListener('body-loaded', this.updateBodyBound);
-
-    if (this.el.body) {
-      this.initBody();
-    }
   },
   update: function () {
     if (this.el.body) {
@@ -209,7 +213,11 @@ AFRAME.registerComponent('sleepy', {
     this.el.removeEventListener('stateadded', this.holdStateBound);
     this.el.removeEventListener('stateremoved', this.resumeStateBound);
   },
-  updateBody: function () {
+  updateBody: function (evt) {
+    // ignore bubbled 'body-loaded' events
+    if (evt !== undefined && evt.target !== this.el) {
+      return;
+    }
     this.el.body.world.allowSleep = true;
     this.el.body.allowSleep = this.data.allowSleep;
     this.el.body.sleepSpeedLimit = this.data.speedLimit;

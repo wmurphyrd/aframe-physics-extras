@@ -75,7 +75,9 @@ AFRAME.registerComponent('physics-collider', {
       AFRAME.utils.extend(this.el.body, this.originalSleepConfig)
     }
   },
-  updateBody: function () {
+  updateBody: function (evt) {
+    // ignore bubbled 'body-loaded' events
+    if (evt !== undefined && evt.target !== this.el) { return }
     if (this.data.ignoreSleep) {
       // ensure sleep doesn't disable collision detection
       this.el.body.allowSleep = false

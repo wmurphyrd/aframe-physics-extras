@@ -20,7 +20,9 @@ AFRAME.registerComponent('collision-filter', {
   remove: function () {
     this.el.removeEventListener('body-loaded', this.updateBodyBound)
   },
-  updateBody: function () {
+  updateBody: function (evt) {
+    // ignore bubbled 'body-loaded' events
+    if (evt !== undefined && evt.target !== this.el) { return }
     this.el.body.collisionFilterMask =
       this.system.getFilterCode(this.data.collidesWith)
     this.el.body.collisionFilterGroup =
