@@ -218,7 +218,13 @@ AFRAME.registerComponent('sleepy', {
     if (evt !== undefined && evt.target !== this.el) {
       return;
     }
-    this.el.body.world.allowSleep = true;
+    if (this.data.allowSleep) {
+      // only "local" driver compatable
+      let world = this.el.sceneEl.systems.physics.driver.world;
+      if (world) {
+        world.allowSleep = true;
+      }
+    }
     this.el.body.allowSleep = this.data.allowSleep;
     this.el.body.sleepSpeedLimit = this.data.speedLimit;
     this.el.body.sleepTimeLimit = this.data.delay;
@@ -234,12 +240,15 @@ AFRAME.registerComponent('sleepy', {
   },
   // disble the sleeping during interactions because sleep will break constraints
   holdState: function (evt) {
-    if (evt.detail.state === this.data.holdState) {
+    let state = this.data.holdState;
+    // api change in A-Frame v0.8.0
+    if (evt.detail === state || evt.detail.state === state) {
       this.el.body.allowSleep = false;
     }
   },
   resumeState: function (evt) {
-    if (evt.detail.state === this.data.holdState) {
+    let state = this.data.holdState;
+    if (evt.detail === state || evt.detail.state === state) {
       this.el.body.allowSleep = this.data.allowSleep;
     }
   }
