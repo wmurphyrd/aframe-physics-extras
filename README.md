@@ -114,7 +114,7 @@ Install and use by directly including the [browser files](dist):
   <script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
   <script src="//cdn.rawgit.com/donmccurdy/aframe-physics-system/v2.1.0/dist/aframe-physics-system.min.js"></script>
   <script src="https://unpkg.com/super-hands@2.0.2/dist/super-hands.min.js"></script>
-  <script src="https://unpkg.com/aframe-physics-extras@0.1.0/dist/aframe-physics-extras.min.js"></script>
+  <script src="https://unpkg.com/aframe-physics-extras@0.1.2/dist/aframe-physics-extras.min.js"></script>
 </head>
 
 <body>
