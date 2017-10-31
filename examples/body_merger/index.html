@@ -1,0 +1,84 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>A-Frame Physics Extras Example</title>
+    <script src="https://aframe.io/releases/0.7.0/aframe.js"></script>
+    <script src="//cdn.rawgit.com/donmccurdy/aframe-physics-system/v2.1.0/dist/aframe-physics-system.min.js"></script>
+    <script src="https://rawgit.com/feiss/aframe-environment-component/master/dist/aframe-environment-component.min.js"></script>
+    <!-- <script src="https://unpkg.com/super-hands/dist/super-hands.min.js"></script>
+    <script src="https://unpkg.com/aframe-event-set-component@^4.0.0/dist/aframe-event-set-component.min.js"></script> -->
+    <script src="https://unpkg.com/aframe-layout-component@4.2/dist/aframe-layout-component.min.js"></script>
+    <script src="../build.js"></script>
+    <script>
+      window.onload = function (e) {
+      }
+    </script>
+    <link rel="stylesheet" type="text/css" href="../assets/examples.css">
+  </head>
+  <body>
+    <body>
+    <a-scene physics environment="preset: forest">
+      <a-assets>
+        <a-mixin id="cube" geometry="width: 0.5; height: 0.5; depth: 0.5"></a-mixin>
+        <a-mixin id="ball" geometry="primitive: sphere; radius: 0.1"
+                 dynamic-body="mass: 0.001"
+                 material="color: yellow"></a-mixin>
+      </a-assets>
+      <!-- merged bodies inherit position and rotation from parents -->
+      <a-entity position="1.5 0.5 -2" rotation="0 0 -5"
+                dynamic-body="shape: none" body-merger="dynamic-body">
+        <a-text value="Merged dynamic bodies" color="white"
+                position="0 1.5 0.51" anchor="center" width="0.5" wrap-count="10"></a-text>
+        <a-box mixin="cube" dynamic-body position="-0.5 0.25 0" color="blue">
+        </a-box>
+        <a-box mixin="cube" dynamic-body position="0.5 0.25 0" color="blue">
+        </a-box>
+        <a-box mixin="cube" dynamic-body position="0 2.318 0" color="blue">
+        </a-box>
+        <a-box mixin="cube" dynamic-body position="0 1.364 0" color="blue">
+        </a-box>
+      </a-entity>
+      <!-- independent bodies ignore parent rotation and position -->
+      <a-entity position="-1.5 0.5 -2" rotation="0 0 0">
+        <a-text value="Unmerged dynamic bodies" color="black"
+                position="0 1.5 0.51" anchor="center" width="0.5" wrap-count="10"></a-text>
+        <a-box mixin="cube" dynamic-body position="-2 0.25 -2" color="red">
+        </a-box>
+        <a-box mixin="cube" dynamic-body position="-1 0.25 -2" color="red">
+        </a-box>
+        <a-box mixin="cube" dynamic-body position="-1.5 2.318 -2" color="red">
+        </a-box>
+        <a-box mixin="cube" dynamic-body position="-1.5 1.364 -2" color="red">
+        </a-box>
+      </a-entity>
+
+      <a-entity mixin="ball" position="-2.5 4 -2"></a-entity>
+      <a-entity mixin="ball" position="-2.24 4 -2"></a-entity>
+      <a-entity mixin="ball" position="-1.97 4 -2"></a-entity>
+      <a-entity mixin="ball" position="-1.71 4 -2"></a-entity>
+      <a-entity mixin="ball" position="-1.45 4 -2"></a-entity>
+      <a-entity mixin="ball" position="-1.18 4 -2"></a-entity>
+      <a-entity mixin="ball" position="-0.92 4 -2"></a-entity>
+      <a-entity mixin="ball" position="-0.66 4 -2"></a-entity>
+      <a-entity mixin="ball" position="-0.39 4 -2"></a-entity>
+      <a-entity mixin="ball" position="-0.13 4 -2"></a-entity>
+      <a-entity mixin="ball" position="0.13 4 -2"></a-entity>
+      <a-entity mixin="ball" position="0.39 4 -2"></a-entity>
+      <a-entity mixin="ball" position="0.66 4 -2"></a-entity>
+      <a-entity mixin="ball" position="0.92 4 -2"></a-entity>
+      <a-entity mixin="ball" position="1.18 4 -2"></a-entity>
+      <a-entity mixin="ball" position="1.45 4 -2"></a-entity>
+      <a-entity mixin="ball" position="1.71 4 -2"></a-entity>
+      <a-entity mixin="ball" position="1.97 4 -2"></a-entity>
+      <a-entity mixin="ball" position="2.24 4 -2"></a-entity>
+      <a-entity mixin="ball" position="2.5 4 -2"></a-entity>
+      <!-- Terrain -->
+      <a-box static-body width="20" depth="20" height="0.02" material="visible: false"></a-box>
+
+      <!-- Lighting -->
+      <a-entity light="type: point; color: #f4f4f4; intensity: 0.2; distance: 0" position="8 10 18"></a-entity>
+      <a-entity light="type: point; color: #f4f4f4; intensity: 0.6; distance: 0" position="-8 10 -18"></a-entity>
+      <a-entity light="type: ambient; color: #f4f4f4; intensity: 0.4;" position="-8 10 -18"></a-entity>
+    </a-scene>
+  </body>
+</html>

@@ -7,3 +7,4 @@ if (typeof AFRAME === 'undefined') {
 require('./src/physics-collider.js')
 require('./src/physics-collision-filter.js')
 require('./src/physics-sleepy.js')
+require('./src/body-merger.js')
