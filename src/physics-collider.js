@@ -49,12 +49,13 @@ AFRAME.registerComponent('physics-collider', {
         }
         upperId = (worldCollisions[++i] & uppperMask) >> 16
       }
-      while (i < worldCollisions.length && upperId === thisBodyId
-        && worldBodyMap[worldCollisions[i] & lowerMask]) {
-        target = worldBodyMap[worldCollisions[i] & lowerMask].el
-        currentCollisions.add(target)
-        if (!collisions.has(target)) { newCollisions.push(target) }
-        upperId = (worldCollisions[++i] & uppperMask) >> 16
+      while (i < worldCollisions.length && upperId === thisBodyId) {
+        if(worldBodyMap[worldCollisions[i] & lowerMask]) {
+          target = worldBodyMap[worldCollisions[i] & lowerMask].el
+          currentCollisions.add(target)
+          if (!collisions.has(target)) { newCollisions.push(target) }
+          upperId = (worldCollisions[++i] & uppperMask) >> 16
+        }
       }
 
       for (let col of collisions) {
