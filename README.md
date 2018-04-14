@@ -1,6 +1,7 @@
 # A-Frame Physics Extras
 [![npm Dowloads](https://img.shields.io/npm/dt/aframe-physics-extras.svg?style=flat-square)](https://www.npmjs.com/package/aframe-physics-extras)
 [![npm Version](http://img.shields.io/npm/v/aframe-physics-extras.svg?style=flat-square)](https://www.npmjs.com/package/aframe-physics-extras)
+[![Build Status](https://travis-ci.org/wmurphyrd/aframe-physics-extras.svg?branch=master)](https://travis-ci.org/wmurphyrd/aframe-physics-extras)
 
 Add-on components for the
 [`aframe-physics-system`](https://github.com/donmccurdy/aframe-physics-system)
