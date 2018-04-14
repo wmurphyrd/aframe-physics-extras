@@ -66,6 +66,9 @@ suite('physics-collider', function () {
       this.el.body.world.idToBodyMap[3] = undefined
       this.comp.tick()
       assert.isFalse(this.comp.collisions.has(this.target2), 'lower loop')
+      this.el.body.world.idToBodyMap[1] = undefined
+      this.comp.tick()
+      assert.isFalse(this.comp.collisions.has(this.target1), 'upper loop')
     })
   })
 })
