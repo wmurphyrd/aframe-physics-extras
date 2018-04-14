@@ -31,8 +31,12 @@ AFRAME.registerComponent('sleepy', {
     if (evt !== undefined && evt.target !== this.el) { return }
     if (this.data.allowSleep) {
       // only "local" driver compatable
-      let world = this.el.sceneEl.systems.physics.driver.world
-      if (world) { world.allowSleep = true }
+      try {
+        this.el.body.world.allowSleep = true
+      } catch (err) {
+        console.error('Unable to activate sleep in physics.' +
+            '`sleepy` requires "local" physics driver')
+      }
     }
     this.el.body.allowSleep = this.data.allowSleep
     this.el.body.sleepSpeedLimit = this.data.speedLimit
