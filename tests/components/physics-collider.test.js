@@ -54,5 +54,21 @@ suite('physics-collider', function () {
       assert.strictEqual(this.comp.collisions.size, 1, 'keeps ongoing collisions')
       assert.isTrue(this.comp.collisions.has(this.target1), 'keeps ongoing collisions')
     })
+    test('Handles bodies removed while collided', function () {
+      this.el.body.world = {
+        bodyOverlapKeeper: {current: [
+          (this.target1.body.id << 16) + this.el.body.id,
+          (this.el.body.id << 16) + this.target2.body.id
+        ]},
+        idToBodyMap: [undefined, this.target1.body, this.el.body, this.target2.body]
+      }
+      this.comp.tick()
+      this.el.body.world.idToBodyMap[3] = undefined
+      this.comp.tick()
+      assert.isFalse(this.comp.collisions.has(this.target2), 'lower loop')
+      this.el.body.world.idToBodyMap[1] = undefined
+      this.comp.tick()
+      assert.isFalse(this.comp.collisions.has(this.target1), 'upper loop')
+    })
   })
 })
