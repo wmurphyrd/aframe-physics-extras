@@ -118,8 +118,8 @@ AFRAME.registerComponent('physics-collider', {
           if (!collisions.has(target)) {
             newCollisions.push(target);
           }
-          upperId = (worldCollisions[++i] & uppperMask) >> 16;
         }
+        upperId = (worldCollisions[++i] & uppperMask) >> 16;
       }
 
       for (let col of collisions) {
