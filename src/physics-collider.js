@@ -28,7 +28,7 @@ AFRAME.registerComponent('physics-collider', {
     const uppperMask = 0xFFFF0000
     const lowerMask = 0x0000FFFF
     return function () {
-      if (!this.el.body) return
+      if (!(this.el.body && this.el.body.world)) return
       const currentCollisions = this.currentCollisions
       const thisBodyId = this.el.body.id
       const worldCollisions = this.el.body.world.bodyOverlapKeeper.current
