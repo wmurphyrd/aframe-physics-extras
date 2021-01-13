@@ -137,8 +137,8 @@ Install and use by directly including the [browser files](dist):
       </a-mixin>
     </a-assets>
     <!-- settings pulled in from controller mixin above -->
-    <a-entity hand-controls="left" mixin="controller"></a-entity>
-    <a-entity hand-controls="right" mixin="controller"></a-entity>
+    <a-entity id="leftHand" hand-controls="hand: left; handModelStyle: lowPoly; color: #ffcccc" mixin="controller"></a-entity>
+    <a-entity id="rightHand" hand-controls="hand: right; handModelStyle: lowPoly; color: #ffcccc" mixin="controller"></a-entity>
     <!-- can be picked up because it collides with the hands group and vice versa -->
     <a-entity mixin="cube" position="0 1.6 -1" material="color: red" sleepy
         collision-filter="group: red; collidesWith: default, hands, blue">
